@@ -1,0 +1,52 @@
+https://www.canva.com/design/DAFr7auSmAA/krBDV0MVRS1LarHuF25GYA/edit?utm_content=DAFr7auSmAA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+TRABAJO GRUPAL - GRUPO N 10
+
+Orlando Cardozo Benitez
+Andrea Silvana Florentin Molinas
+Danissa Ortigoza Adorno
+Lidia María Rackievieczus Franco
+Pedro Fabian Silva Gimenez
+
+
+ADJUNTO CONSULTAS SQL  
+crear stream 
+CREATE STREAM trades_stream (p DOUBLE, s STRING, t STRING, v DOUBLE) WITH (KAFKA_TOPIC='trades-orders', VALUE_FORMAT='JSON');
+
+crear tabla
+ CREATE TABLE contar_symbolos AS SELECT s, COUNT(s) FROM trades_stream GROUP BY s EMIT CHANGES;
+
+crear tabla
+ CREATE TABLE promedio AS SELECT *, AVG(p) FROM trades_stream GROUP BY s EMIT CHANGES;
+
+consultar los datos
+
+ select * from contar_symbolos;
+
+select s,avg(p) from trades_stream group by s EMIT CHANGES;
+
+ CREATE TABLE promedio_symbolos AS SELECT s,avg(p) FROM trades_stream GROUP BY s EMIT CHANGES;
+
+
+select * from promedio_symbolos;
+
+
+
+CREATE TABLE pro_max AS SELECT s,max(p) FROM trades_stream GROUP BY s EMIT CHANGES;
+
+
+select * from pro_max;
+
+CREATE TABLE pro_min AS SELECT s,min(p) FROM trades_stream GROUP BY s EMIT CHANGES;
+
+
+select * from pro_min;
+
+
+
+CREATE TABLE pro_count AS SELECT s,count(p) FROM trades_stream GROUP BY s EMIT CHANGES;
+
+
+
+select * from pro_count;
+
